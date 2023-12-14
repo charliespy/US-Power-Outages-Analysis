@@ -56,21 +56,21 @@ We chose RMSE and R-squared as our evaluation metric. RMSE is a standard measure
 
 # Baseline Model
 ### Model Description
-For the baseline prediction task, we employ a linear regression model to estimate the duration of power outages ('OUTAGE.DURATION'). The selected features for the model include 'COM.SALES' and 'ANOMALY.LEVEL'. These features are deemed relevant in predicting power outage duration, with 'COM.SALES' representing electricity consumption in the commercial sector and 'ANOMALY.LEVEL' indicating the oceanic El Niño/La Niña (ONI) index.
+For the baseline prediction task, we employ a linear regression model to estimate the duration of power outages (`OUTAGE.DURATION`). The selected features for the model include `COM.SALES` and `ANOMALY.LEVEL`. These features are deemed relevant in predicting power outage duration, with `COM.SALES` representing electricity consumption in the commercial sector and `ANOMALY.LEVEL` indicating the oceanic El Niño/La Niña (ONI) index.
 
 ### Feature Preprocessing 
-Prior to model fitting, the features undergo preprocessing using a ColumnTransformer. Numerical features, 'COM.SALES' and 'ANOMALY.LEVEL', are subjected to imputation of missing values through mean imputation and scaled using StandardScaler. The remainder of the features remains untouched ('passthrough').
+Prior to model fitting, the features undergo preprocessing using a ColumnTransformer. Numerical features, `COM.SALES` and `ANOMALY.LEVEL`, are subjected to imputation of missing values through mean imputation and scaled using StandardScaler. The remainder of the features remains untouched (`passthrough`).
 
 ### Model Architecture 
 The baseline model employs a Linear Regression model, capturing the linear relationship between the selected features and the target variable, `OUTAGE.DURATION`.
 
 ### Model Performance
-The baseline model yields a Root Mean Squared Error (RMSE) of approximately 1663.9635448345775 and an R-squared value of 0.0011293100540951118. These metrics provide insights into the model's accuracy and explainability. The RMSE measures the average deviation between the actual and predicted outage durations, with lower values indicating better performance. The R-squared value quantifies the proportion of variance in the target variable captured by the model, where higher values denote a better fit.
+The baseline model yields a test Root Mean Squared Error (RMSE) of approximately 1574.340978391451 and an R-squared value of -0.028481049417356408. These metrics provide insights into the model's accuracy and explainability. The RMSE measures the average deviation between the actual and predicted outage durations, with lower values indicating better performance. The R-squared value quantifies the proportion of variance in the target variable captured by the model, where higher values denote a better fit.
 
 ### Visualization
-A 3D scatter plot and regression plane visualization illustrate the relationship between transformed features ('COM.SALES' and 'ANOMALY.LEVEL') and outage duration. This aids in visually assessing the model's ability to capture patterns in the data.
+A 3D scatter plot and regression plane visualization illustrate the relationship between transformed features (`COM.SALES` and `ANOMALY.LEVEL`) and outage duration. This aids in visually assessing the model's ability to capture patterns in the data.
 
-<p style="text-align:center"><iframe src="assets/3d.html" width=800 height=600 frameBorder=0></iframe></p>
+<p style="text-align:center"><iframe src="assets/3d.html" width=800 height=800 frameBorder=0></iframe></p>
 
 In the subsequent sections, we explore the evolution of the model from this baseline, incorporating additional features, tuning hyperparameters, and optimizing performance metrics.
 
@@ -91,8 +91,18 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec justo enim. C
 
 
 # Fairness Analysis
-### Accuracy Analysis
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec justo enim. Cras eget eros ipsum. Duis bibendum mi ut lectus lacinia, dictum consectetur lectus elementum. Praesent scelerisque risus sollicitudin ante venenatis commodo. Maecenas aliquam, leo ac pellentesque bibendum, magna leo feugiat risus, ut luctus tortor lectus non augue. Curabitur posuere, est vitae rhoncus consectetur, leo eros varius leo, non imperdiet erat risus quis justo. Vivamus consectetur facilisis leo, eget faucibus arcu.
+### Residual Analysis
+We first analyze the residual of each of our prediction models. In a residual graph, the horizontal axis represents the predicted values from the models. It is the independent variable in this context, showing the range of predictions that your model has made. The vertical axis represents the residuals, which are the differences between the observed values and the values predicted by the models. A residual is positive if the prediction is below the actual value and negative if it is above. Ideally, the residuals should be randomly scattered around the horizontal axis (which represents a residual value of zero), with no discernible pattern. This would indicate that the model's predictions are unbiased.
+
+For the baseline Linear Regression model, the residual graph looks like this: 
+<p style="text-align:center"><iframe src="assets/res1.html" width=800 height=800 frameBorder=0></iframe></p>
+
+In this plot, the residuals do not show a clear pattern or trend, which is generally good. However, there appears to be a slight "funnel" shape, where the spread of the residuals increases for higher values of the baseline. This could indicate heteroscedasticity, meaning that the variance of the residuals is not constant across all levels of the independent variable. Outliers can also be spotted as points that are far away from the horizontal line at zero. The outliers are all at higher predicted values, meaning the actual value is a lot more than the predicted value. 
+
+For the final Random Forest model, the residual graph looks like this: 
+<p style="text-align:center"><iframe src="assets/res2.html" width=800 height=800 frameBorder=0></iframe></p>
+
+The Random Forest model has a similar residual pattern as the baseline model. However, its "funnel" shape is slightly more evident, which could be explained by the extra features. In addition, there are as many positive residual points as negative ones, which is a stark contrast from the baseline residual plot, which mainly converges at the negative ends, with few outliers having much higher residuals than others. The range of predictions is also notably larger. The highest prediction made by the baseline model is only around 2000, whereas the final model can make predictions up to 4500. 
 
 ### R-squared Analysis
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec justo enim. Cras eget eros ipsum. Duis bibendum mi ut lectus lacinia, dictum consectetur lectus elementum. Praesent scelerisque risus sollicitudin ante venenatis commodo. Maecenas aliquam, leo ac pellentesque bibendum, magna leo feugiat risus, ut luctus tortor lectus non augue. Curabitur posuere, est vitae rhoncus consectetur, leo eros varius leo, non imperdiet erat risus quis justo. Vivamus consectetur facilisis leo, eget faucibus arcu.
