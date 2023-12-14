@@ -79,7 +79,7 @@ In the subsequent sections, we explore the evolution of the model from this base
 
 # Final Model
 ### Model Selecting and Features
-After thorough experimentation and iterative model development, the final predictive model employs a random forest regressor, chosen for its ability to handle a diverse range of features and potential interactions. Unlike logistic regression, the random forest model offers more tunable hyperparameters, making it well-suited for optimizing predictive performance.
+After thorough experimentation and iterative model development, the final predictive model employs a random forest regressor, chosen for its ability to handle a diverse range of features and potential interactions. Unlike linear regression, the random forest model offers more tunable hyperparameters, making it well-suited for optimizing predictive performance.
 
 ### Feature Preprocessing
 - **Cyclical Month Encoding (`OUTAGE.MONTH`):** To capture seasonal patterns effectively, we introduced a cyclical encoding transformation using sine and cosine functions. This enhancement allows the model to better understand the temporal aspect of power outage occurrences.
@@ -99,20 +99,22 @@ This strategic selection of features aims to provide the model with a comprehens
 ### Model Architecture 
 The final model employs a random forest regressor with tuned hyperparameters, striking a balance between complexity and predictive power.
 
-### Model Performance**
-Even before hyperparameter tuning, the final model exhibits improved performance compared to the baseline. The test accuracy is approximately 93%, with an RMSE of 1597.9978623084187 and an R-squared value of 0.22945220560576407. After hyperparameter tuning, the model achieves an accuracy of around 93.5%, with an RMSE of 1596.737056096661 and an R-squared value of 0.2306676367543974. These metrics demonstrate the model's ability to accurately predict power outage duration.
+### Model Performance 
+Even before hyperparameter tuning, the final model exhibits a significant improvement in performance compared to the baseline. The test RMSE is 1474.2525101701656 and the R-squared value is 0.27785385330546075. 
 
-### Highlight
-It's important to note that all RMSE and R-squared values presented are derived from the testing set, providing a robust evaluation of the model's performance on unseen data.
+### Hyperparameters Tuning
+In the process of hyperparameter tuning for the Random Forest Regressor, a grid search was performed over a range of `max_depth` and `n_estimators`, exploring values from 1 to 200. The computational time for this search was approximately 1 minute and 45 seconds. The optimal hyperparameters identified were `max_depth`=11 and `n_estimators`=41. These parameters showcased a balance between model complexity and generalization, contributing to improved performance on the test set.
+
+The tuned Random Forest model demonstrated a modest enhancement over the untuned version, with the Root Mean Squared Error (RMSE) decreasing to 1383.6004458577404 and the R-squared value changing to 0.20563503640079228 on the test dataset. This suggests that the fine-tuned hyperparameters enabled the model to better capture underlying patterns in the data, emphasizing the significance of hyperparameter optimization for model refinement. The chosen hyperparameters are deemed effective for achieving a favorable trade-off between model complexity and predictive accuracy.
 
 ### Summary
-The evolution of our predictive model for power outage duration reveals significant enhancements in accuracy, precision, and overall performance. Beginning with a logistic regression baseline, we observed commendable performance, even with a restricted feature set. However, as the model complexity increased and more diverse features were introduced, the random forest regressor emerged as the superior choice.
+The evolution of our predictive model for power outage duration reveals significant enhancements in accuracy, precision, and overall performance. Beginning with a linear regression baseline, we observed commendable performance, even with a restricted feature set. However, as the model complexity increased and more diverse features were introduced, the random forest regressor emerged as the superior choice.
 
 The incorporation of categorical features such as 'CLIMATE.CATEGORY' proved pivotal in capturing nuanced patterns within the data. These features, transformed using one-hot encoding, contributed to the model's ability to discern intricate details about climate episodes and outage causes.
 
 The introduction of cyclical encoding for temporal features, exemplified by 'OUTAGE.MONTH,' empowered the model to grasp seasonal patterns more effectively. Additionally, the inclusion of 'U.S._STATE' and 'UTIL.CONTRI' as features further enriched the model's understanding of regional and economic influences on power outage duration.
 
-The model's journey from a logistic regression baseline to a tuned random forest regressor showcased the importance of model selection and hyperparameter tuning. The latter significantly improved accuracy, as evidenced by the reduction in RMSE and the increase in R-squared values. These outcomes underscore the model's proficiency in predicting power outage duration, offering valuable insights for utility planning and resource allocation.
+The model's journey from a linear regression baseline to a tuned random forest regressor showcased the importance of model selection and hyperparameter tuning. The latter significantly improved accuracy, as evidenced by the reduction in RMSE and the increase in R-squared values. These outcomes underscore the model's proficiency in predicting power outage duration, offering valuable insights for utility planning and resource allocation.
 
 In conclusion, the iterative refinement process, coupled with strategic feature selection and hyperparameter tuning, culminated in a robust predictive model capable of providing accurate estimates of power outage duration.
 
@@ -132,8 +134,7 @@ For the final Random Forest model, the residual graph looks like this:
 
 The Random Forest model has a similar residual pattern as the baseline model. However, its "funnel" shape is slightly more evident, which could be explained by the extra features. In addition, there are as many positive residual points as negative ones, which is a stark contrast from the baseline residual plot, which mainly converges at the negative ends, with few outliers having much higher residuals than others. The range of predictions is also notably larger. The highest prediction made by the baseline model is only around 2000, whereas the final model can make predictions up to 4500. 
 
-### R-squared Analysis
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec justo enim. Cras eget eros ipsum. Duis bibendum mi ut lectus lacinia, dictum consectetur lectus elementum. Praesent scelerisque risus sollicitudin ante venenatis commodo. Maecenas aliquam, leo ac pellentesque bibendum, magna leo feugiat risus, ut luctus tortor lectus non augue. Curabitur posuere, est vitae rhoncus consectetur, leo eros varius leo, non imperdiet erat risus quis justo. Vivamus consectetur facilisis leo, eget faucibus arcu.
+### RMSE Analysis
+Our secondary evaluation metric is the RMSE value. We present a similar null hypothesis suggesting that our model’s RMSE value for determining outage severity is approximately equal for all seasons, and any discrepancies are due to random chance. Alternatively, our model could be unfair if the RMSE value is higher for the summer compared to for the winter. We’ve chosen the difference between the RMSE in the summer and in the winter as our test statistic, with a significance level of 0.05. Upon executing a permutation test 10,000 times, we obtained a p-value of 0.5666. As this value is above our significance level, we cannot reject the null hypothesis, suggesting that our model is fair based on the RMSE analysis. Therefore, we can confidently assert that our model is fair regardless of the season of the power outage. 
 
-### Model Performance
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec justo enim. Cras eget eros ipsum. Duis bibendum mi ut lectus lacinia, dictum consectetur lectus elementum. Praesent scelerisque risus sollicitudin ante venenatis commodo. Maecenas aliquam, leo ac pellentesque bibendum, magna leo feugiat risus, ut luctus tortor lectus non augue. Curabitur posuere, est vitae rhoncus consectetur, leo eros varius leo, non imperdiet erat risus quis justo. Vivamus consectetur facilisis leo, eget faucibus arcu.
+<p style="text-align:center"><iframe src="assets/rmse.html" width=800 height=600 frameBorder=0></iframe></p>
