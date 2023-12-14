@@ -78,15 +78,43 @@ In the subsequent sections, we explore the evolution of the model from this base
 
 
 # Final Model
-### Model Description
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec justo enim. Cras eget eros ipsum. Duis bibendum mi ut lectus lacinia, dictum consectetur lectus elementum. Praesent scelerisque risus sollicitudin ante venenatis commodo. Maecenas aliquam, leo ac pellentesque bibendum, magna leo feugiat risus, ut luctus tortor lectus non augue. Curabitur posuere, est vitae rhoncus consectetur, leo eros varius leo, non imperdiet erat risus quis justo. Vivamus consectetur facilisis leo, eget faucibus arcu.
+### Model Selecting and Features
+After thorough experimentation and iterative model development, the final predictive model employs a random forest regressor, chosen for its ability to handle a diverse range of features and potential interactions. Unlike logistic regression, the random forest model offers more tunable hyperparameters, making it well-suited for optimizing predictive performance.
 
-### Feature Transformation
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec justo enim. Cras eget eros ipsum. Duis bibendum mi ut lectus lacinia, dictum consectetur lectus elementum. Praesent scelerisque risus sollicitudin ante venenatis commodo. Maecenas aliquam, leo ac pellentesque bibendum, magna leo feugiat risus, ut luctus tortor lectus non augue. Curabitur posuere, est vitae rhoncus consectetur, leo eros varius leo, non imperdiet erat risus quis justo. Vivamus consectetur facilisis leo, eget faucibus arcu.
+### Feature Preprocessing
+- **Cyclical Month Encoding (`OUTAGE.MONTH`):** To capture seasonal patterns effectively, we introduced a cyclical encoding transformation using sine and cosine functions. This enhancement allows the model to better understand the temporal aspect of power outage occurrences.
 
+- **Categorical Features:** Utilizing one-hot encoding, we transformed categorical features to numerical representations for model compatibility. These include:
+    - `U.S._STATE`: Represents all the states in the continental U.S.
+    - `CLIMATE.CATEGORY`: Describes climate episodes corresponding to the years, categorized as “Warm,” “Cold,” or “Normal” based on the Oceanic Niño Index (ONI).
+    - `CAUSE.CATEGORY`: Represents categories of events causing major power outages.
 
-### Model Performance
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec justo enim. Cras eget eros ipsum. Duis bibendum mi ut lectus lacinia, dictum consectetur lectus elementum. Praesent scelerisque risus sollicitudin ante venenatis commodo. Maecenas aliquam, leo ac pellentesque bibendum, magna leo feugiat risus, ut luctus tortor lectus non augue. Curabitur posuere, est vitae rhoncus consectetur, leo eros varius leo, non imperdiet erat risus quis justo. Vivamus consectetur facilisis leo, eget faucibus arcu.
+- **Numerical Features:** The following numerical features underwent imputation of missing values using the mean and standardization using the Standard Scaler:
+    - `UTIL.CONTRI`: Utility industry’s contribution to the total Gross State Product (GSP) in the state, expressed as a percentage of the total real GDP contributed by the utility industry.
+    - `ANOMALY.LEVEL`: Represents the oceanic El Niño/La Niña (ONI) index, indicating cold and warm episodes by season.
+    - `COM.SALES`: Electricity consumption in the commercial sector (megawatt-hour).
+
+This strategic selection of features aims to provide the model with a comprehensive understanding of the diverse factors influencing power outage duration. The inclusion of temporal, categorical, and numerical features contributes to the model's ability to capture intricate patterns and make accurate predictions.
+
+### Model Architecture 
+The final model employs a random forest regressor with tuned hyperparameters, striking a balance between complexity and predictive power.
+
+### Model Performance**
+Even before hyperparameter tuning, the final model exhibits improved performance compared to the baseline. The test accuracy is approximately 93%, with an RMSE of 1597.9978623084187 and an R-squared value of 0.22945220560576407. After hyperparameter tuning, the model achieves an accuracy of around 93.5%, with an RMSE of 1596.737056096661 and an R-squared value of 0.2306676367543974. These metrics demonstrate the model's ability to accurately predict power outage duration.
+
+### Highlight
+It's important to note that all RMSE and R-squared values presented are derived from the testing set, providing a robust evaluation of the model's performance on unseen data.
+
+### Summary
+The evolution of our predictive model for power outage duration reveals significant enhancements in accuracy, precision, and overall performance. Beginning with a logistic regression baseline, we observed commendable performance, even with a restricted feature set. However, as the model complexity increased and more diverse features were introduced, the random forest regressor emerged as the superior choice.
+
+The incorporation of categorical features such as 'CLIMATE.CATEGORY' proved pivotal in capturing nuanced patterns within the data. These features, transformed using one-hot encoding, contributed to the model's ability to discern intricate details about climate episodes and outage causes.
+
+The introduction of cyclical encoding for temporal features, exemplified by 'OUTAGE.MONTH,' empowered the model to grasp seasonal patterns more effectively. Additionally, the inclusion of 'U.S._STATE' and 'UTIL.CONTRI' as features further enriched the model's understanding of regional and economic influences on power outage duration.
+
+The model's journey from a logistic regression baseline to a tuned random forest regressor showcased the importance of model selection and hyperparameter tuning. The latter significantly improved accuracy, as evidenced by the reduction in RMSE and the increase in R-squared values. These outcomes underscore the model's proficiency in predicting power outage duration, offering valuable insights for utility planning and resource allocation.
+
+In conclusion, the iterative refinement process, coupled with strategic feature selection and hyperparameter tuning, culminated in a robust predictive model capable of providing accurate estimates of power outage duration.
 
 
 
