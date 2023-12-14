@@ -123,12 +123,12 @@ In conclusion, the iterative refinement process, coupled with strategic feature 
 We first analyze the residual of each of our prediction models. In a residual graph, the horizontal axis represents the predicted values from the models. It is the independent variable in this context, showing the range of predictions that your model has made. The vertical axis represents the residuals, which are the differences between the observed values and the values predicted by the models. A residual is positive if the prediction is below the actual value and negative if it is above. Ideally, the residuals should be randomly scattered around the horizontal axis (which represents a residual value of zero), with no discernible pattern. This would indicate that the model's predictions are unbiased.
 
 For the baseline Linear Regression model, the residual graph looks like this: 
-<p style="text-align:center"><iframe src="assets/res1.html" width=800 height=800 frameBorder=0></iframe></p>
+<p style="text-align:center"><iframe src="assets/res1.html" width=800 height=600 frameBorder=0></iframe></p>
 
 In this plot, the residuals do not show a clear pattern or trend, which is generally good. However, there appears to be a slight "funnel" shape, where the spread of the residuals increases for higher values of the baseline. This could indicate heteroscedasticity, meaning that the variance of the residuals is not constant across all levels of the independent variable. Outliers can also be spotted as points that are far away from the horizontal line at zero. The outliers are all at higher predicted values, meaning the actual value is a lot more than the predicted value. 
 
 For the final Random Forest model, the residual graph looks like this: 
-<p style="text-align:center"><iframe src="assets/res2.html" width=800 height=800 frameBorder=0></iframe></p>
+<p style="text-align:center"><iframe src="assets/res2.html" width=800 height=600 frameBorder=0></iframe></p>
 
 The Random Forest model has a similar residual pattern as the baseline model. However, its "funnel" shape is slightly more evident, which could be explained by the extra features. In addition, there are as many positive residual points as negative ones, which is a stark contrast from the baseline residual plot, which mainly converges at the negative ends, with few outliers having much higher residuals than others. The range of predictions is also notably larger. The highest prediction made by the baseline model is only around 2000, whereas the final model can make predictions up to 4500. 
 
