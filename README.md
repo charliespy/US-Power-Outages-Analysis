@@ -203,20 +203,16 @@ Since in both hypothesis tests, we rejected the null hypothesis, we could conclu
 
 
 
+# Section 2: Predicting Outage Durations
 
-
-
-
-
-
-
-
-
-
-### Prediction Problem
+## Prediction Problem
 To make accurate predictions, we will utilize historical data on power outages that have occurred from January 2000 to July 2016. This dataset includes various features such as `OUTAGE.DURATION`, `U.S._STATE`, `CLIMATE.CATEGORY`, `CAUSE.CATEGORY`, `OUTAGE.MONTH`, `UTIL.CONTRI`, `ANOMALY.LEVEL`, and `COM.SALES`, each offering insights into the nature and impact of power outages.
 
-### Features Selection
+We chose RMSE and R-squared as our evaluation metric. RMSE is a standard measure to evaluate the accuracy of a model's predictions. It gives us a sense of how far our predictions are from the actual values, with a lower RMSE indicating higher accuracy. R-squared, on the other hand, is a statistical measure of how close the data are to the fitted regression line. It essentially shows the proportion of variance for a dependent variable that's explained by an independent variable or variables in a regression model. High R-squared values indicate that a large portion of the variability of the dependent variable has been explained by the independent variables in the model.
+
+
+
+## Feature Selection
 To select the categorical features, we chose some columns that we thought would be important indicators to how long a power outage occurs. Specifically, the state is important because it reflects local infrastructure and response capabilities, which can vary significantly. The climate category is crucial as it gives insights into the weather conditions that might precipitate an outage or affect its duration. The cause category is vital in understanding the nature of the outage and its potential duration. The month in which the outage occurred is important because the power recovery speed might vary from season to season (slower in winter and faster in summer). 
 
 For the numerical columns, we plotted a pair plot and selected the features that had the highest correlation with `OUTAGE.DURATION`. The pair plot of the selected features is given below.
@@ -243,12 +239,9 @@ Below are the first five entries from the cleaned, selected dataset:
 | Minnesota    | normal             | severe weather     |              6 |       1.93209 |            -0.1 | 1.94117e+06 |
 | Minnesota    | warm               | severe weather     |              7 |       1.6687  |             1.2 | 2.16161e+06 |
 
-### Metric of Evaluation
-We chose RMSE and R-squared as our evaluation metric. RMSE is a standard measure to evaluate the accuracy of a model's predictions. It gives us a sense of how far our predictions are from the actual values, with a lower RMSE indicating higher accuracy. R-squared, on the other hand, is a statistical measure of how close the data are to the fitted regression line. It essentially shows the proportion of variance for a dependent variable that's explained by an independent variable or variables in a regression model. High R-squared values indicate that a large portion of the variability of the dependent variable has been explained by the independent variables in the model.
 
 
-
-# Baseline Model
+## Baseline Model
 ### Model Description
 For the baseline prediction task, we employ a linear regression model to estimate the duration of power outages (`OUTAGE.DURATION`). The selected features for the model include `COM.SALES` and `ANOMALY.LEVEL`. These features are deemed relevant in predicting power outage duration, with `COM.SALES` representing electricity consumption in the commercial sector and `ANOMALY.LEVEL` indicating the oceanic El Niño/La Niña (ONI) index.
 
@@ -271,7 +264,7 @@ In the subsequent sections, we explore the evolution of the model from this base
 
 
 
-# Final Model
+## Final Model
 ### Model Selecting and Features
 After thorough experimentation and iterative model development, the final predictive model employs a random forest regressor, chosen for its ability to handle a diverse range of features and potential interactions. Unlike linear regression, the random forest model offers more tunable hyperparameters, making it well-suited for optimizing predictive performance.
 
@@ -301,7 +294,7 @@ In the process of hyperparameter tuning for the Random Forest Regressor, a grid 
 
 The tuned Random Forest model demonstrated a modest enhancement over the untuned version, with the Root Mean Squared Error (RMSE) decreasing to 1383.6004458577404 and the R-squared value changing to 0.20563503640079228 on the test dataset. This suggests that the fine-tuned hyperparameters enabled the model to better capture underlying patterns in the data, emphasizing the significance of hyperparameter optimization for model refinement. The chosen hyperparameters are deemed effective for achieving a favorable trade-off between model complexity and predictive accuracy.
 
-### Summary
+## Summary
 The evolution of our predictive model for power outage duration reveals significant enhancements in accuracy, precision, and overall performance. Beginning with a linear regression baseline, we observed commendable performance, even with a restricted feature set. However, as the model complexity increased and more diverse features were introduced, the random forest regressor emerged as the superior choice.
 
 The incorporation of categorical features such as 'CLIMATE.CATEGORY' proved pivotal in capturing nuanced patterns within the data. These features, transformed using one-hot encoding, contributed to the model's ability to discern intricate details about climate episodes and outage causes.
@@ -314,7 +307,7 @@ In conclusion, the iterative refinement process, coupled with strategic feature 
 
 
 
-# Fairness Analysis
+## Fairness Analysis
 ### Residual Analysis
 We first analyze the residual of each of our prediction models. In a residual graph, the horizontal axis represents the predicted values from the models. It is the independent variable in this context, showing the range of predictions that your model has made. The vertical axis represents the residuals, which are the differences between the observed values and the values predicted by the models. A residual is positive if the prediction is below the actual value and negative if it is above. Ideally, the residuals should be randomly scattered around the horizontal axis (which represents a residual value of zero), with no discernible pattern. This would indicate that the model's predictions are unbiased.
 
