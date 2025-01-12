@@ -6,12 +6,6 @@ Power outages are critical disruptions that affect communities and economies, pa
 
 
 
-
-# Project Overview
-Power outages are critical events with far-reaching societal implications, disrupting daily activities, impacting businesses, and posing potential risks to public safety. Enhancing the resilience and reliability of the electrical grid requires a nuanced understanding of outage patterns and characteristics. In our analysis, we focus on predicting the duration of power outages, specifically honing in on the West Climate region. This geographic segmentation provides valuable insights into the unique challenges and contributing factors associated with power outages in this region. Climate regions, shaped by prevailing weather conditions, can significantly influence outage causes and consequences. For instance, the West Climate region might be characterized by dry and hot conditions, distinct from other regions experiencing colder temperatures or severe weather events.
-
-
-
 # Introduction
 
 Electricity is the cornerstone of modern civilization, powering homes, fueling industries, and enabling the technologies that drive daily life. Despite its critical role, the continuous supply of electricity is not always assured, as the United States has experienced significant power outages that highlight the fragility of the national energy grid. Power outages disrupt daily activities, impact businesses, and pose risks to public safety, with their causes and consequences often shaped by climatic conditions. The West Climate region, characterized by its dry and hot conditions, faces unique challenges compared to regions with colder temperatures or severe weather events, further underscoring the need for a nuanced understanding of outage patterns.
