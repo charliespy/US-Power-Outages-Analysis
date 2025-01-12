@@ -1,8 +1,10 @@
 # Unraveling the Mysteries Behind Major Power Outages in the U.S.
 **Authors:** Charlie Sun, Aaron Feng
 
-# Project Overview
+# Abstract 
+Lorem ipsem 
 
+# Project Overview
 Power outages are critical events with far-reaching societal implications, disrupting daily activities, impacting businesses, and posing potential risks to public safety. Enhancing the resilience and reliability of the electrical grid requires a nuanced understanding of outage patterns and characteristics. In our analysis, we focus on predicting the duration of power outages, specifically honing in on the West Climate region. This geographic segmentation provides valuable insights into the unique challenges and contributing factors associated with power outages in this region. Climate regions, shaped by prevailing weather conditions, can significantly influence outage causes and consequences. For instance, the West Climate region might be characterized by dry and hot conditions, distinct from other regions experiencing colder temperatures or severe weather events.
 
 
@@ -47,15 +49,15 @@ In this section, we aim to discern how various outage causes distinctly impact h
 
 ## Univariate Analysis
 
-We began our analysis by examining the distribution of severeness indicators like `OUTAGE.DURATION` and `DEMAND.LOSS.MW`. The plot below demonstrates that `OUTAGE.DURATION` is skewed the right. The leftmost outage categoriazation, short duration outage (<1000), is the most common. The rest of the outage duration distribution are quite average.
+We began our analysis by examining the distribution of severity indicators such as `OUTAGE.DURATION` and `DEMAND.LOSS.MW`. The plot below demonstrates that `OUTAGE.DURATION` is skewed to the right. The leftmost outage categorization, short-duration outages (<1000), is the most common. The rest of the outage duration distribution appears relatively uniform.
 
 <p style="text-align:center"><iframe src="assets/outage_duration.html" width=800 height=600 frameBorder=0></iframe></p>
 
-Simillar to the outage duration distribution, this next plot below is also skewed to the right. It reveals that small demand losses (< 100MW) are more common than high demand losses. 
+Similar to the outage duration distribution, the next plot below is also skewed to the right. It reveals that small demand losses (<100 MW) are more common than high demand losses.
 
 <p style="text-align:center"><iframe src="assets/demand_loss.html" width=800 height=600 frameBorder=0></iframe></p>
 
-Then, we could take a look at the causal indicator variables. As we see in the dataframe below, most of the power outages happen in places where the climate is normal. 
+Next, we examined the causal indicator variables. As shown in the table below, most power outages occur in places where the climate is classified as normal.
 
 | Causes   |   CLIMATE.CATEGORY |
 |:---------|-------------------:|
@@ -63,7 +65,7 @@ Then, we could take a look at the causal indicator variables. As we see in the d
 | cold     |                387 |
 | warm     |                248 |
 
-As we see the dataframe below, severe weather and itentional attack cause most of the outages. While system operability disruption, public appeal, and quipment failure causes the smallest portion of the outages.
+Additionally, the table below shows that severe weather and intentional attacks are the primary causes of outages, whereas system operability disruptions, public appeals, and equipment failures account for a smaller proportion of outages.
 
 | Causes                        |   CAUSE.CATEGORY |
 |:------------------------------|-----------------:|
@@ -73,34 +75,35 @@ As we see the dataframe below, severe weather and itentional attack cause most o
 | public appeal                 |               64 |
 | equipment failure             |               54 |
 
-
-To see the distribution of location, we could create a heatmap using folium. As we see on the map below, northeastern and midwestern states suffer most of the outages. We guess that population and GDP may have a correlation with amount of outages as California, Texas, and Washington have the greatest amount of outages. 
+To analyze the distribution of outages by location, we created a heatmap using Folium. As shown on the map below, northeastern and midwestern states experience the highest number of outages. We hypothesize that population and GDP may correlate with the number of outages, as California, Texas, and Washington have the greatest number of outages.
 
 <p style="text-align:center"><iframe src="assets/heatmap.html" width=800 height=400 frameBorder=0></iframe></p>
 
 
+
 ## Bivariate Analysis
 
-We want to start by analyzing the relationship between `OUTAGE.DURATION` and `CLIMATE.CATEGORY`. The box plot below depicts three climate categories: warm, cold, and normal, the conditions during which the power outages occurred. The x-axis indicates the outage duration measured in minutes. 
+We began by analyzing the relationship between `OUTAGE.DURATION` and `CLIMATE.CATEGORY`. The box plot below depicts the three climate categories—warm, cold, and normal—representing the conditions during which power outages occurred. The x-axis indicates the outage duration measured in minutes.
 
 <p style="text-align:center"><iframe src="assets/biv_1.html" width=800 height=600 frameBorder=0></iframe></p>
 
-The three distributions have similar IQR and shape. However, the median and 75% quartile outage duration is the highest in cold climate. The warm category has the fewest outliers, and the normal category has the most outliers. Overall, the cold climate tends to have longer and more variable outage durations. In contrast, the warm climate tends to have shorter and more consistent durations. This confirms our prediction that power outages are more likely to be severe and impactful in cold climates, where it snows more often than in the warm climates, where there's sunshine most of the time. From this box plot, one could hypothesize that climate conditions do not have a strong impact on both the duration and variability of power outages. Therefore, in our hypothesis tests, we will likely not adopt `CLIMATE.CATEGORY` as a feature variable. 
+The three distributions have similar interquartile ranges (IQR) and shapes. However, the median and 75th percentile of outage duration are highest in cold climates. The warm category has the fewest outliers, while the normal category has the most. Overall, cold climates tend to experience longer and more variable outage durations. In contrast, warm climates exhibit shorter and more consistent durations. This observation supports our prediction that power outages are more severe and impactful in cold climates, where snow is more frequent, than in warm climates, which are generally sunny. Despite these findings, the box plot suggests that climate conditions may not strongly influence the duration and variability of power outages. Therefore, we will likely not include `CLIMATE.CATEGORY` as a feature variable in our hypothesis tests.
 
-Next, we will use another box plot to analyze the influence of different `CAUSE.CATEGORY`s on the `DEMAND.LOSS.MW` of the outage. The box plot below shows us that the demand loss values are numeric, continuous, and possibly standardized around zero, which may indicate a deviation from a norm or average situation. Several categories of outage causes are included, such as islanding, fuel supply emergency, public appeal, equipment failure, system operability disruption, intentional attack, and severe weather.
+Next, we analyzed the influence of different `CAUSE.CATEGORY`s on `DEMAND.LOSS.MW`. The box plot below illustrates that demand loss values are numeric, continuous, and possibly standardized around zero, which may represent deviations from a norm or average. Several categories of outage causes are represented, including islanding, fuel supply emergencies, public appeals, equipment failures, system operability disruptions, intentional attacks, and severe weather.
 
 <p style="text-align:center"><iframe src="assets/biv_2.html" width=800 height=600 frameBorder=0></iframe></p>
 
-In the plot, every cause category's distribution looks vastly different. The most notable/unique categories are: 
-- **severe weather**: this distribution has a very large IQR and outliers. Its range is the largest of all distributions, and it is also the most balanced distributions. 
-- **intentional attack**: This distribution has an extremely slim IQR, not even visible on the plot. Since its median and quartile ranges lie around `DEMAND.LOSS.MW` = 0, but its outliers span all the way to the largest values, it means that although the majority of the power outages caused by intentaionl attacks do not cost a lot of power, some well-planned attacks can be very costly. 
+The distributions for each cause category vary significantly. The most notable categories are: 
+- **Severe weather**: This distribution has a very large IQR and numerous outliers. Its range is the largest among all distributions and is also the most balanced.
+- **Intentional attack**: This distribution has an extremely narrow IQR, barely visible on the plot. While its median and quartile ranges are centered around `DEMAND.LOSS.MW = 0`, its outliers extend to the highest values. This indicates that although the majority of power outages caused by intentional attacks have minimal power loss, some well-planned attacks can be very costly.
 
-In summary, the box plots suggests that different causes of power outages result in varying levels of power loss. Severe weather seems to be have the most stable amount of demands loss, while intentional attacks appear to have the most variable distribution. This analysis helps us in understanding which types of events create more significant deviations from normal operating conditions. In the hypothesis testing section, we will be analyzing the relationship between severe weather outages and intentional attack outages, using their demand loss as the standard. 
+In summary, the box plots suggest that different causes of power outages lead to varying levels of power loss. Severe weather appears to result in the most consistent demand loss, while intentional attacks exhibit the most variable distribution. This analysis provides insight into which types of events cause the most significant deviations from normal operating conditions. In the hypothesis testing section, we will further analyze the relationship between severe weather and intentional attacks, using demand loss as the standard for comparison.
 
 
-## Interesting Aggregates 
 
-We first created a pivot table. The mean of outage duration in each column varies indicating that the there may exits an correlation between `OUTAGE.DURATION` and {`CAUSE.CATEGROY` and `CLIMATE.CATEGORY`}. 
+## Interesting Aggregates
+
+We began by creating a pivot table to analyze the mean outage durations across various categories of `CAUSE.CATEGORY` and `CLIMATE.CATEGORY`. The mean outage durations vary significantly across columns, suggesting a potential correlation between `OUTAGE.DURATION` and `CAUSE.CATEGORY` as well as `CLIMATE.CATEGORY`.
 
 |   equipment failure |   fuel supply emergency |   intentional attack |   islanding |   public appeal |   severe weather |   system operability disruption |
 |--------------------:|------------------------:|---------------------:|------------:|----------------:|-----------------:|--------------------------------:|
@@ -108,64 +111,93 @@ We first created a pivot table. The mean of outage duration in each column varie
 |              445.76 |                 1583.2  |              333.366 |     72.6875 |        1385.58  |          1820.49 |                         276.583 |
 |              505    |                  255    |              312.557 |    209.833  |         625.333 |          1777.95 |                         495.571 |
 
-Then, using the pivot table, we created a grouped bar plot. 
+Using the pivot table, we visualized these differences with a grouped bar plot:
 
 <p style="text-align:center"><iframe src="assets/aggregates.html" width=800 height=600 frameBorder=0></iframe></p>
 
-With the Bar Plot computed from the pivot table above, the difference in mean can be more easily observed, especally between warm category and the other two climate category. expand on this
+The grouped bar plot provides a clearer view of the differences in mean outage durations across the categories:
+- **Climate Categories**: The "warm" climate category shows noticeably shorter outage durations compared to the "cold" and "normal" categories. This reinforces the hypothesis that warmer climates experience shorter and less severe power outages, likely due to the absence of snowstorms or freezing conditions, which are more common in colder climates.
+- **Cause Categories**:
+  - Outages caused by **severe weather** have the longest mean durations across all climate categories. This aligns with the understanding that severe weather events, such as hurricanes or snowstorms, typically cause widespread and prolonged outages.
+  - **Fuel supply emergencies** also exhibit high mean durations, suggesting that these outages are difficult to resolve quickly, likely due to logistical challenges.
+  - **Intentional attacks** and **equipment failures** have relatively lower mean outage durations, indicating these issues might be more localized and easier to address.
+  - **Public appeals** show moderate mean durations but vary considerably between climate categories, possibly reflecting differences in how the public responds to power-saving campaigns or other utility directives.
+
+Additionally, the disparity between the "warm" climate category and the other two categories highlights the potential influence of environmental factors on outage duration. These variations could stem from infrastructure differences, weather resilience, or repair challenges associated with different climates. Severe weather events stand out as a dominant contributor to longer outages, regardless of climate, emphasizing the need for robust infrastructure to mitigate these events' impacts.
+
+In conclusion, the pivot table and grouped bar plot demonstrate that outage durations are influenced by both climate and cause categories. These findings suggest that incorporating `CLIMATE.CATEGORY` and `CAUSE.CATEGORY` as features in further analysis could provide valuable insights into the factors affecting power outages.
+
 
 
 
 ## Assessment of Data Missingness
 
 ### NMAR Analysis
-We think that the dataset is NMAR. In the analysis of the dataset derived from 'A Multi-Hazard Approach to Assess Severe Weather-Induced Major Power Outage Risks in the U.S.' (Mukherjee et al., 2018), a significant pattern of missingness is observed in the `OUTAGE.RESTORATION` column. This dataset exclusively encompasses major outages, defined per the Department of Energy's criteria as incidents impacting at least 50,000 customers or causing an unplanned firm load loss of at least 300 MW. Given the considerable scale and impact of these events, it is implausible that the lack of restoration data is due to inadvertent omission or data collection negligence. Rather, it is posited that the missingness in restoration times is predominantly attributable to the intrinsic uncertainties and complexities inherent in the restoration process of such large-scale outages. These complexities might include multifaceted technical challenges, logistical constraints, and varying restoration protocols, which collectively contribute to an ambiguity in precisely determining the restoration moment. Consequently, this pattern of missing data is best characterized as NMAR, where the absence of information is inherently linked to the nature and context of the data itself, rather than random or systemic data collection errors.
 
+We posit that the dataset exhibits **Missing Not At Random (NMAR)** characteristics. In our analysis of the dataset derived from *"A Multi-Hazard Approach to Assess Severe Weather-Induced Major Power Outage Risks in the U.S."* (Mukherjee et al., 2018), a significant pattern of missingness is observed in the `OUTAGE.RESTORATION` column. 
+
+This dataset exclusively covers major outages, as defined by the Department of Energy's criteria: incidents affecting at least 50,000 customers or resulting in an unplanned firm load loss of at least 300 MW. Given the large scale and critical nature of these events, it is unlikely that the missing restoration data is due to negligence or oversight in data collection. Instead, the missingness in restoration times appears to stem from intrinsic uncertainties and complexities associated with restoring power after such significant outages. Factors contributing to this ambiguity may include:
+- Technical challenges in restoring infrastructure.
+- Logistical constraints in coordinating repairs and resource allocation.
+- Varying protocols and practices across different regions and utility providers.
+
+Thus, the missingness in the `OUTAGE.RESTORATION` column is inherently tied to the nature of the data itself. It is best characterized as NMAR because the absence of restoration information is linked to the restoration process's inherent challenges, rather than being a result of random or systematic collection errors.
 
 ### Missingness Dependency
 
-Now, we focus on the missingness of demand loss in the power dataframe and test the dependency of this missingnes We are conducting **permutation dependency test** on two paris of columns: {`CAUSE.CATEGORY`, `DEMAND.LOSS.MW`}, and {`CLIMATE.CATEGORY`, `DEMAND.LOSS.MW`}.
+Next, we focused on the missingness of `DEMAND.LOSS.MW` in the dataset and tested whether this missingness is dependent on other variables. We conducted a **permutation dependency test** on the following pairs of columns:
+- `{CAUSE.CATEGORY, DEMAND.LOSS.MW}`
+- `{CLIMATE.CATEGORY, DEMAND.LOSS.MW}`
 
-1. **`CAUSE.CATEGORY` & `DEMAND.LOSS.MW`:**
+#### 1. **`CAUSE.CATEGORY` & `DEMAND.LOSS.MW`**
 
-Null Hypothesis (H0): the distribution of the cause when demand loss is missing is the same as the distribution of the cause when demand loss is not missing. 
+**Null Hypothesis (H₀):** The distribution of `CAUSE.CATEGORY` is the same when `DEMAND.LOSS.MW` is missing and when it is not missing.  
+**Alternative Hypothesis (H₁):** The distribution of `CAUSE.CATEGORY` is different when `DEMAND.LOSS.MW` is missing and when it is not missing.  
 
-Alternative Hypothesis (H1): the distribution of the cause when demand loss is missing is different from the distribution of the cause when demand loss is not missing. 
-
-Test statistic: We are using TVD (Total Variation Distance) as our test statistics because CAUSE.CATEGORY contains categorical variables. We use permutation test to shuffle the missingness of demand loss 500 times and get 500 simulating results about the TVD.
+**Test Statistic:** We used **Total Variation Distance (TVD)** as the test statistic because `CAUSE.CATEGORY` contains categorical variables. Using a permutation test, we shuffled the missingness of `DEMAND.LOSS.MW` 500 times to generate simulated results for the TVD.
 
 <p style="text-align:center"><iframe src="assets/missingness_1.html" width=800 height=600 frameBorder=0></iframe></p>
 
-We get a p-value of 0.0, when we use 0.05 as our significance threshold, we should reject the null hypothesis that the distribution of the cause when demand loss is missing is the same as the distribution of the cause when demand loss is not missing. In another word, demand loss is not dependent on the cause.
+**Results:**  
+- The p-value was calculated as **0.0**.  
+- At a significance threshold of 0.05, we reject the null hypothesis.  
+- **Interpretation:** This indicates that the missingness of `DEMAND.LOSS.MW` is **not independent** of `CAUSE.CATEGORY`. In other words, the cause of the outage influences whether demand loss data is missing.
 
-2. **`CLIMATE.CATEGORY` & `DEMAND.LOSS.MW`:**
+#### 2. **`CLIMATE.CATEGORY` & `DEMAND.LOSS.MW`**
 
-Null Hypothesis (H0): the distribution of the climate when demand loss is missing is the same as the distribution of the climate when demand loss is not missing 
+**Null Hypothesis (H₀):** The distribution of `CLIMATE.CATEGORY` is the same when `DEMAND.LOSS.MW` is missing and when it is not missing.  
+**Alternative Hypothesis (H₁):** The distribution of `CLIMATE.CATEGORY` is different when `DEMAND.LOSS.MW` is missing and when it is not missing.  
 
-Alternative Hypothesis (H1): the distribution of the climate when demand loss is missing is different from the distribution of the climate when demand loss is not missing 
-
-Test statistic: we are using TVD (Total Variation Distance) as our test statistics because CLIMATE.CATEGORY contains categorical variables. 
-
-We use permutation test to shuffle the missingness of demand loss 500 times and get 500 simulating results about the TVD.
+**Test Statistic:** We used **Total Variation Distance (TVD)** as the test statistic because `CLIMATE.CATEGORY` contains categorical variables. Similarly, we shuffled the missingness of `DEMAND.LOSS.MW` 500 times to generate simulated results for the TVD.
 
 <p style="text-align:center"><iframe src="assets/missingness_2.html" width=800 height=600 frameBorder=0></iframe></p>
 
-We get a p-value of approximately 0.3, and when we use 0.05 as our significance threshold, we fail to reject the null hypothesis that the distribution of the climate when demand loss is missing is the same as the distribution of the climate when demand loss is not missing. In another word, demand loss is dependent on climate category.
+**Results:**  
+- The p-value was calculated as approximately **0.3**.  
+- At a significance threshold of 0.05, we fail to reject the null hypothesis.  
+- **Interpretation:** This suggests that the missingness of `DEMAND.LOSS.MW` is **independent** of `CLIMATE.CATEGORY`. In other words, climate conditions do not significantly influence whether demand loss data is missing.
+
+### Summary
+
+Our analysis revealed:
+- The missingness of `DEMAND.LOSS.MW` is dependent on `CAUSE.CATEGORY`, indicating that the type of outage cause plays a role in whether demand loss information is recorded.
+- The missingness of `DEMAND.LOSS.MW` is independent of `CLIMATE.CATEGORY`, suggesting that climate conditions do not affect the recording of demand loss data.
+
+These findings highlight the need to account for `CAUSE.CATEGORY` in further analyses involving missing data in `DEMAND.LOSS.MW`. Moreover, the NMAR nature of the dataset's missingness in `OUTAGE.RESTORATION` underscores the challenges inherent in analyzing large-scale power outages.
 
 
 
+## Hypothesis Testing
 
-## Hypothesis Testing 
+**Null Hypothesis (H0):** The cumulative distribution functions (CDFs) of `DEMAND.LOSS.MW` for the 'severe weather' and 'intentional attack' cause categories are identical.
 
-Null Hypothesis (H0): The cumulative distribution functions (CDFs) of `DEMAND.LOSS.MW` for the 'severe weather' and 'intentional attack' cause categories are identical.
+**Alternative Hypothesis (H1):** The cumulative distribution functions (CDFs) of `DEMAND.LOSS.MW` for the 'severe weather' and 'intentional attack' cause categories are not identical.
 
-Alternative Hypothesis (H1): The cumulative distribution functions (CDFs) of `DEMAND.LOSS.MW` for the 'severe weather' and 'intentional attack' cause categories are not identical.
+We selected only the relevant columns, including `DEMAND.LOSS.MW` and `CAUSE.CATEGORY`. Recognizing the abundance of distinct values in `CAUSE.CATEGORY`, we decided to focus exclusively on 'severe weather' and 'intentional attack'.
 
-We would select only the useful column, including `DEMAND.LOSS.MW` and `CAUSE.CATEGORY`. Recognizing the abundance of difference values in 'CAUSE.CATEGORY', we decide to only perform text on 'severe weather' and 'intentional attack'.
+Since anomaly level is numerical data and there are outliers in anomaly levels for 'severe weather' and 'intentional attack', we chose the Kolmogorov-Smirnov (KS) statistic as our test statistic due to its sensitivity to differences and robustness to outliers.
 
-Since anomaly level is numerical data, and there exits outier in anomaly level for severe weather and intentional attack, we choose to use  Kolmogorov-Smirnov (KS) statistic as our test statistics, considering its advantage on sensitivity to difference and robustness on ouliers.
-
-We ran permutation for 10000 times and the graph shows the distribution of permuation test result. The red line marks the observed value.
+We performed 10,000 permutations, and the graph below illustrates the distribution of permutation test results. The red line indicates the observed value.
 
 ```python
 P-value: 0.0
@@ -173,13 +205,13 @@ Observed KS Statistic: 0.4099314384610264
 ```
 <p style="text-align:center"><iframe src="assets/hypothesis_1.html" width=800 height=600 frameBorder=0></iframe></p>
 
-The P-value for the testing is roughly 0.65, which means that at significant level of 0.05, we fail to reject the null hypothesis. 
+The P-value for this test is approximately 0.65, indicating that at a significance level of 0.05, we fail to reject the null hypothesis.
 
-In real-life terms, this result suggests that the reason for the outage ('severe weather' or 'intentional attack') may not be a strong predictor of the severity of the outage. Other factors or a combination of factors might contribute to the observed severity levels.
+In practical terms, this result suggests that the cause of the outage ('severe weather' or 'intentional attack') may not strongly predict the severity of the outage. Other factors or a combination of factors likely contribute to the observed severity levels.
 
-The comparable damage levels caused by 'intentional attack' and 'severe weather' may be due to resilient infrastructure, proactive maintenance, and swift response protocols in the power system. Investments in technology, regional climate considerations, and adherence to regulatory standards further contribute to minimizing outage severity. Data aggregation into broad categories may conceal nuanced variations, emphasizing the importance of a detailed analysis for a comprehensive understanding of the observed similarities.
+Comparable damage levels caused by 'intentional attack' and 'severe weather' could result from resilient infrastructure, proactive maintenance, and efficient response protocols in the power system. Investments in technology, regional climate considerations, and compliance with regulatory standards further mitigate outage severity. Data aggregation into broad categories may obscure nuanced variations, highlighting the importance of detailed analyses for a comprehensive understanding of the observed similarities.
 
-We then repeated the same procedures, but changed the severeness indicator variables to `OUTAGE.DURATION`. Similar to `DEMAND.LOSS.MW`, we also rejected the null hypothesis. The summarized statistics are given below:
+We then repeated the same procedures but replaced the severity indicator variable with `OUTAGE.DURATION`. Similar to `DEMAND.LOSS.MW`, we rejected the null hypothesis. The summarized statistics are presented below:
 
 ```python
 P-value: 0.0
@@ -187,8 +219,7 @@ Observed KS Statistic: 0.5707781401850496
 ```
 <p style="text-align:center"><iframe src="assets/hypothesis_2.html" width=800 height=600 frameBorder=0></iframe></p>
 
-Since in both hypothesis tests, we rejected the null hypothesis, we could conclude, with enough statistical confidence, that the cumulative distribution functions (CDFs) of `DEMAND.LOSS.MW` for the 'severe weather' and 'intentional attack' cause categories are not identical.
-
+In both hypothesis tests, we rejected the null hypothesis. Therefore, we can conclude with sufficient statistical confidence that the cumulative distribution functions (CDFs) of `DEMAND.LOSS.MW` for the 'severe weather' and 'intentional attack' cause categories are not identical.
 
 
 
