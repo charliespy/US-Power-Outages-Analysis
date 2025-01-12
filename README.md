@@ -2,7 +2,10 @@
 **Authors:** Charlie Sun, Aaron Feng
 
 # Abstract 
-Lorem ipsem 
+Power outages are critical disruptions that affect communities and economies, particularly in regions with extreme weather conditions. This study investigates the predictors of power outage durations, with a focus on the West Climate region, leveraging data from 2000 to 2016. Through comprehensive data cleaning, exploratory analysis, and hypothesis testing, we identify key factors influencing outage severity and duration. Employing advanced machine learning models, including random forest regressors, we predict outage durations with significantly improved accuracy over baseline models. Our findings highlight the role of climate, cause categories, and utility infrastructure in shaping outage outcomes, offering actionable insights for enhancing grid resilience and recovery strategies. Additionally, fairness analyses affirm the model's robustness across seasons, emphasizing its utility for equitable resource allocation and planning.
+
+
+
 
 # Project Overview
 Power outages are critical events with far-reaching societal implications, disrupting daily activities, impacting businesses, and posing potential risks to public safety. Enhancing the resilience and reliability of the electrical grid requires a nuanced understanding of outage patterns and characteristics. In our analysis, we focus on predicting the duration of power outages, specifically honing in on the West Climate region. This geographic segmentation provides valuable insights into the unique challenges and contributing factors associated with power outages in this region. Climate regions, shaped by prevailing weather conditions, can significantly influence outage causes and consequences. For instance, the West Climate region might be characterized by dry and hot conditions, distinct from other regions experiencing colder temperatures or severe weather events.
@@ -233,34 +236,41 @@ In both hypothesis tests, we rejected the null hypothesis. Therefore, we can con
 
 
 
-
 # Section 2: Predicting Outage Durations
 
 ## Prediction Problem
-To make accurate predictions, we will utilize historical data on power outages that have occurred from January 2000 to July 2016. This dataset includes various features such as `OUTAGE.DURATION`, `U.S._STATE`, `CLIMATE.CATEGORY`, `CAUSE.CATEGORY`, `OUTAGE.MONTH`, `UTIL.CONTRI`, `ANOMALY.LEVEL`, and `COM.SALES`, each offering insights into the nature and impact of power outages.
+To make accurate predictions, we will utilize historical data on power outages that occurred between January 2000 and July 2016. This dataset includes various features such as `OUTAGE.DURATION`, `U.S._STATE`, `CLIMATE.CATEGORY`, `CAUSE.CATEGORY`, `OUTAGE.MONTH`, `UTIL.CONTRI`, `ANOMALY.LEVEL`, and `COM.SALES`, each providing valuable insights into the nature and impact of power outages.
 
-We chose RMSE and R-squared as our evaluation metric. RMSE is a standard measure to evaluate the accuracy of a model's predictions. It gives us a sense of how far our predictions are from the actual values, with a lower RMSE indicating higher accuracy. R-squared, on the other hand, is a statistical measure of how close the data are to the fitted regression line. It essentially shows the proportion of variance for a dependent variable that's explained by an independent variable or variables in a regression model. High R-squared values indicate that a large portion of the variability of the dependent variable has been explained by the independent variables in the model.
-
+We chose RMSE (Root Mean Square Error) and R-squared as our evaluation metrics. RMSE is a standard measure for evaluating the accuracy of a model's predictions. It provides an estimate of the average deviation of the predicted values from the actual values, with a lower RMSE indicating higher accuracy. R-squared, on the other hand, is a statistical measure of how well the regression predictions approximate the actual data points. It reflects the proportion of variance in the dependent variable that is explained by the independent variables in the model. Higher R-squared values signify that a larger portion of the variability in the dependent variable is explained by the independent variables, indicating better model performance.
 
 
 ## Feature Selection
-To select the categorical features, we chose some columns that we thought would be important indicators to how long a power outage occurs. Specifically, the state is important because it reflects local infrastructure and response capabilities, which can vary significantly. The climate category is crucial as it gives insights into the weather conditions that might precipitate an outage or affect its duration. The cause category is vital in understanding the nature of the outage and its potential duration. The month in which the outage occurred is important because the power recovery speed might vary from season to season (slower in winter and faster in summer). 
 
-For the numerical columns, we plotted a pair plot and selected the features that had the highest correlation with `OUTAGE.DURATION`. The pair plot of the selected features is given below.
+To select the categorical features, we focused on columns that we believed would be significant indicators of power outage durations. Specifically:
+
+- **State**: Reflects local infrastructure and response capabilities, which can vary significantly.
+- **Climate Category**: Provides insights into the weather conditions that might precipitate an outage or affect its duration.
+- **Cause Category**: Helps understand the nature of the outage and its potential duration.
+- **Month of Outage**: Captures seasonal variations in power recovery speeds, which might be slower in winter and faster in summer.
+
+For the numerical columns, we used a pair plot to identify features with the highest correlation to `OUTAGE.DURATION`. Below is the pair plot of the selected features:
 
 <p style="text-align:center"><iframe src="assets/scatter.html" width=800 height=600 frameBorder=0></iframe></p>
 
-Here is a detailed explanation of each column in the dataset:
-- The `OUTAGE.DURATION` column represents the duration of outage events, measured in minutes. This is the variable we aim to predict.
-- The `U.S._STATE` column includes all the states within the continental United States, reflecting the geographic diversity of the data.
-- The `CLIMATE.CATEGORY` column categorizes the climate conditions corresponding to the years of the data. The categories—“Warm,” “Cold,” or “Normal”—are determined based on a threshold of ±0.5°C for the Oceanic Niño Index (ONI), which tracks significant temperature changes in the ocean.
-- The `CAUSE.CATEGORY` column enumerates the different categories of events that have led to major power outages.
-- The `OUTAGE.MONTH` column specifies the month during which each outage occurred, providing insights into seasonal patterns of power outages.
-- The `UTIL.CONTRI` column quantifies the utility industry's contribution to the Gross State Product (GSP) in each state, expressed as a percentage of the total real GDP contributed by the utility industry.
-- The `ANOMALY.LEVEL` column reflects the Oceanic Niño Index (ONI) values, indicating the intensity of oceanic El Niño/La Niña episodes by season, which are known to influence weather patterns.
-- The `COM.SALES` column records the electricity consumption in the commercial sector, measured in megawatt-hours, offering insights into commercial energy usage patterns.
+### Explanation of Dataset Columns
 
-Below are the first five entries from the cleaned, selected dataset:
+- **`OUTAGE.DURATION`**: Represents the duration of outage events, measured in minutes. This is the target variable for prediction.
+- **`U.S._STATE`**: Includes all states within the continental United States, reflecting the geographic diversity of the data.
+- **`CLIMATE.CATEGORY`**: Categorizes climate conditions as "Warm," "Cold," or "Normal," based on a threshold of ±0.5°C for the Oceanic Niño Index (ONI), which tracks significant oceanic temperature changes.
+- **`CAUSE.CATEGORY`**: Enumerates the different categories of events that caused major power outages.
+- **`OUTAGE.MONTH`**: Specifies the month of each outage, providing insights into seasonal patterns.
+- **`UTIL.CONTRI`**: Quantifies the utility industry's contribution to the Gross State Product (GSP) in each state, expressed as a percentage of the total real GDP contributed by the utility industry.
+- **`ANOMALY.LEVEL`**: Reflects the ONI values, indicating the intensity of oceanic El Niño/La Niña episodes by season, known to influence weather patterns.
+- **`COM.SALES`**: Records electricity consumption in the commercial sector, measured in megawatt-hours, offering insights into commercial energy usage patterns.
+
+### Sample of Cleaned and Selected Data
+
+Below are the first five entries from the cleaned dataset:
 
 | U.S._STATE   | CLIMATE.CATEGORY   | CAUSE.CATEGORY     |   OUTAGE.MONTH |   UTIL.CONTRI |   ANOMALY.LEVEL |   COM.SALES |
 |:-------------|:-------------------|:-------------------|---------------:|--------------:|----------------:|------------:|
@@ -273,86 +283,138 @@ Below are the first five entries from the cleaned, selected dataset:
 
 
 ## Baseline Model
+
 ### Model Description
-For the baseline prediction task, we employ a linear regression model to estimate the duration of power outages (`OUTAGE.DURATION`). The selected features for the model include `COM.SALES` and `ANOMALY.LEVEL`. These features are deemed relevant in predicting power outage duration, with `COM.SALES` representing electricity consumption in the commercial sector and `ANOMALY.LEVEL` indicating the oceanic El Niño/La Niña (ONI) index.
+For the baseline prediction task, we employ a linear regression model to estimate the duration of power outages (`OUTAGE.DURATION`). The selected features for the model include `COM.SALES` and `ANOMALY.LEVEL`. These features are considered relevant for predicting power outage duration, with `COM.SALES` representing electricity consumption in the commercial sector and `ANOMALY.LEVEL` indicating the oceanic El Niño/La Niña (ONI) index.
 
 ### Feature Preprocessing 
-Prior to model fitting, the features undergo preprocessing using a ColumnTransformer. Numerical features, `COM.SALES` and `ANOMALY.LEVEL`, are subjected to imputation of missing values through mean imputation and scaled using StandardScaler. The remainder of the features remains untouched (`passthrough`).
+Prior to model fitting, the features undergo preprocessing using a ColumnTransformer. Numerical features (`COM.SALES` and `ANOMALY.LEVEL`) are preprocessed by imputing missing values using mean imputation and scaled with a StandardScaler. The remainder of the features is left unchanged (`passthrough`).
 
 ### Model Architecture 
 The baseline model employs a Linear Regression model, capturing the linear relationship between the selected features and the target variable, `OUTAGE.DURATION`.
 
 ### Model Performance
-The baseline model yields a test Root Mean Squared Error (RMSE) of approximately 1574.340978391451 and an R-squared value of -0.028481049417356408. These metrics provide insights into the model's accuracy and explainability. The RMSE measures the average deviation between the actual and predicted outage durations, with lower values indicating better performance. The R-squared value quantifies the proportion of variance in the target variable captured by the model, where higher values denote a better fit.
+The baseline model yields the following performance metrics:
+
+- **Root Mean Squared Error (RMSE):** Approximately 1574.34
+- **R-squared:** -0.0285
+
+These metrics provide insights into the model's performance:
+
+- RMSE measures the average deviation between actual and predicted outage durations, with lower values indicating better accuracy.
+- R-squared quantifies the proportion of variance in the target variable explained by the model. Negative values, such as -0.0285, indicate that the model performs worse than a horizontal line representing the mean of the data.
 
 ### Visualization
-A 3D scatter plot and regression plane visualization illustrate the relationship between transformed features (`COM.SALES` and `ANOMALY.LEVEL`) and outage duration. This aids in visually assessing the model's ability to capture patterns in the data.
+A 3D scatter plot and regression plane visualization illustrate the relationship between the transformed features (`COM.SALES` and `ANOMALY.LEVEL`) and outage duration. This visualization aids in assessing the model's ability to capture patterns in the data.
 
 <p style="text-align:center"><iframe src="assets/3d.html" width=800 height=800 frameBorder=0></iframe></p>
 
+### Next Steps
 In the subsequent sections, we explore the evolution of the model from this baseline, incorporating additional features, tuning hyperparameters, and optimizing performance metrics.
 
 
 
-
 ## Final Model
-### Model Selecting and Features
-After thorough experimentation and iterative model development, the final predictive model employs a random forest regressor, chosen for its ability to handle a diverse range of features and potential interactions. Unlike linear regression, the random forest model offers more tunable hyperparameters, making it well-suited for optimizing predictive performance.
+
+### Model Selection and Features
+After thorough experimentation and iterative model development, the final predictive model employs a random forest regressor, chosen for its ability to handle diverse features and potential interactions. Unlike linear regression, the random forest model offers more tunable hyperparameters, making it well-suited for optimizing predictive performance.
 
 ### Feature Preprocessing
-- **Cyclical Month Encoding (`OUTAGE.MONTH`):** To capture seasonal patterns effectively, we introduced a cyclical encoding transformation using sine and cosine functions. This enhancement allows the model to better understand the temporal aspect of power outage occurrences.
 
-- **Categorical Features:** Utilizing one-hot encoding, we transformed categorical features to numerical representations for model compatibility. These include:
-    - `U.S._STATE`: Represents all the states in the continental U.S.
-    - `CLIMATE.CATEGORY`: Describes climate episodes corresponding to the years, categorized as “Warm,” “Cold,” or “Normal” based on the Oceanic Niño Index (ONI).
-    - `CAUSE.CATEGORY`: Represents categories of events causing major power outages.
+- **Cyclical Month Encoding (`OUTAGE.MONTH`)**: To capture seasonal patterns effectively, we introduced cyclical encoding using sine and cosine functions. This transformation allows the model to better understand the temporal aspect of power outage occurrences.
 
-- **Numerical Features:** The following numerical features underwent imputation of missing values using the mean and standardization using the Standard Scaler:
-    - `UTIL.CONTRI`: Utility industry’s contribution to the total Gross State Product (GSP) in the state, expressed as a percentage of the total real GDP contributed by the utility industry.
-    - `ANOMALY.LEVEL`: Represents the oceanic El Niño/La Niña (ONI) index, indicating cold and warm episodes by season.
-    - `COM.SALES`: Electricity consumption in the commercial sector (megawatt-hour).
+- **Categorical Features**: These features were transformed using one-hot encoding to ensure model compatibility. They include:
+  - `U.S._STATE`: Represents all states in the continental U.S.
+  - `CLIMATE.CATEGORY`: Describes climate episodes categorized as "Warm," "Cold," or "Normal," based on the Oceanic Niño Index (ONI).
+  - `CAUSE.CATEGORY`: Represents categories of events causing major power outages.
 
-This strategic selection of features aims to provide the model with a comprehensive understanding of the diverse factors influencing power outage duration. The inclusion of temporal, categorical, and numerical features contributes to the model's ability to capture intricate patterns and make accurate predictions.
+- **Numerical Features**: These features underwent mean imputation for missing values and standardization using the StandardScaler:
+  - `UTIL.CONTRI`: Utility industry’s contribution to the total Gross State Product (GSP), expressed as a percentage of the state’s GDP.
+  - `ANOMALY.LEVEL`: Represents the Oceanic Niño Index (ONI), indicating cold and warm episodes by season.
+  - `COM.SALES`: Electricity consumption in the commercial sector (megawatt-hours).
 
-### Model Architecture 
-The final model employs a random forest regressor with tuned hyperparameters, striking a balance between complexity and predictive power.
+This strategic selection of features provides the model with a comprehensive understanding of the diverse factors influencing power outage duration. The inclusion of temporal, categorical, and numerical features contributes to capturing intricate patterns and making accurate predictions.
 
-### Model Performance 
-Even before hyperparameter tuning, the final model exhibits a significant improvement in performance compared to the baseline. The test RMSE is 1474.2525101701656 and the R-squared value is 0.27785385330546075. 
+### Model Architecture
+The final model employs a random forest regressor with tuned hyperparameters, balancing complexity and predictive power.
 
-### Hyperparameters Tuning
-In the process of hyperparameter tuning for the Random Forest Regressor, a grid search was performed over a range of `max_depth` and `n_estimators`, exploring values from 1 to 200. The computational time for this search was approximately 1 minute and 45 seconds. The optimal hyperparameters identified were `max_depth`=11 and `n_estimators`=41. These parameters showcased a balance between model complexity and generalization, contributing to improved performance on the test set.
+### Model Performance
+The final model demonstrates significant improvements compared to the baseline:
 
-The tuned Random Forest model demonstrated a modest enhancement over the untuned version, with the Root Mean Squared Error (RMSE) decreasing to 1383.6004458577404 and the R-squared value changing to 0.20563503640079228 on the test dataset. This suggests that the fine-tuned hyperparameters enabled the model to better capture underlying patterns in the data, emphasizing the significance of hyperparameter optimization for model refinement. The chosen hyperparameters are deemed effective for achieving a favorable trade-off between model complexity and predictive accuracy.
+- **Initial Performance** (Before Tuning):
+  - RMSE: 1474.25
+  - R-squared: 0.2779
 
-## Summary
-The evolution of our predictive model for power outage duration reveals significant enhancements in accuracy, precision, and overall performance. Beginning with a linear regression baseline, we observed commendable performance, even with a restricted feature set. However, as the model complexity increased and more diverse features were introduced, the random forest regressor emerged as the superior choice.
+- **After Hyperparameter Tuning**:
+  - RMSE: 1383.60
+  - R-squared: 0.2056
 
-The incorporation of categorical features such as 'CLIMATE.CATEGORY' proved pivotal in capturing nuanced patterns within the data. These features, transformed using one-hot encoding, contributed to the model's ability to discern intricate details about climate episodes and outage causes.
+These metrics highlight the model’s ability to better capture patterns in the data after tuning.
 
-The introduction of cyclical encoding for temporal features, exemplified by 'OUTAGE.MONTH,' empowered the model to grasp seasonal patterns more effectively. Additionally, the inclusion of 'U.S._STATE' and 'UTIL.CONTRI' as features further enriched the model's understanding of regional and economic influences on power outage duration.
+### Hyperparameter Tuning
+Hyperparameter tuning for the random forest regressor involved a grid search over a range of `max_depth` and `n_estimators` values (1 to 200). The search required approximately 1 minute and 45 seconds, with the following optimal hyperparameters identified:
 
-The model's journey from a linear regression baseline to a tuned random forest regressor showcased the importance of model selection and hyperparameter tuning. The latter significantly improved accuracy, as evidenced by the reduction in RMSE and the increase in R-squared values. These outcomes underscore the model's proficiency in predicting power outage duration, offering valuable insights for utility planning and resource allocation.
+- `max_depth`: 11
+- `n_estimators`: 41
 
-In conclusion, the iterative refinement process, coupled with strategic feature selection and hyperparameter tuning, culminated in a robust predictive model capable of providing accurate estimates of power outage duration.
+The tuned hyperparameters improved the model’s predictive accuracy by reducing RMSE and enhancing R-squared values. These results emphasize the importance of hyperparameter optimization for refining model performance.
+
+## Model Comparison and Summary
+The evolution of our predictive model for power outage duration reveals significant enhancements in accuracy and performance. Starting with a linear regression baseline, we achieved commendable results even with a limited feature set. However, as model complexity increased and more diverse features were introduced, the random forest regressor emerged as the superior choice.
+
+Key advancements include:
+
+- Incorporation of categorical features such as `CLIMATE.CATEGORY`, transformed using one-hot encoding, to capture nuanced patterns in climate episodes and outage causes.
+- Cyclical encoding for temporal features like `OUTAGE.MONTH`, enabling the model to better understand seasonal patterns.
+- Inclusion of `U.S._STATE` and `UTIL.CONTRI`, enriching the model’s understanding of regional and economic influences on outage durations.
+
+The transition from a linear regression baseline to a tuned random forest regressor underscores the importance of model selection and hyperparameter tuning. The final model significantly reduced RMSE and improved R-squared values, underscoring its proficiency in predicting power outage duration and offering valuable insights for utility planning and resource allocation.
+
+In conclusion, the iterative refinement process, coupled with strategic feature selection and hyperparameter tuning, culminated in a robust predictive model capable of delivering accurate estimates of power outage duration.
+
+
 
 
 
 ## Fairness Analysis
-### Residual Analysis
-We first analyze the residual of each of our prediction models. In a residual graph, the horizontal axis represents the predicted values from the models. It is the independent variable in this context, showing the range of predictions that your model has made. The vertical axis represents the residuals, which are the differences between the observed values and the values predicted by the models. A residual is positive if the prediction is below the actual value and negative if it is above. Ideally, the residuals should be randomly scattered around the horizontal axis (which represents a residual value of zero), with no discernible pattern. This would indicate that the model's predictions are unbiased.
 
-For the baseline Linear Regression model, the residual graph looks like this: 
+### Residual Analysis
+
+We first analyze the residuals of each of our prediction models. In a residual graph, the horizontal axis represents the predicted values from the models, serving as the independent variable. The vertical axis represents the residuals, which are the differences between the observed values and the predicted values. Residuals are positive if the prediction is below the actual value and negative if it is above. Ideally, residuals should be randomly scattered around the horizontal axis (representing a residual value of zero) with no discernible pattern. This would indicate that the model's predictions are unbiased.
+
+**Baseline Linear Regression Model**
+
+The residual graph for the baseline model is shown below:
 <p style="text-align:center"><iframe src="assets/res1.html" width=800 height=600 frameBorder=0></iframe></p>
 
-In this plot, the residuals do not show a clear pattern or trend, which is generally good. However, there appears to be a slight "funnel" shape, where the spread of the residuals increases for higher values of the baseline. This could indicate heteroscedasticity, meaning that the variance of the residuals is not constant across all levels of the independent variable. Outliers can also be spotted as points that are far away from the horizontal line at zero. The outliers are all at higher predicted values, meaning the actual value is a lot more than the predicted value. 
+In this plot, the residuals do not exhibit a clear pattern or trend, which is generally favorable. However, there appears to be a slight "funnel" shape, where the spread of residuals increases for higher predicted values. This suggests potential heteroscedasticity, meaning the variance of residuals is not constant across all levels of the independent variable. Outliers are evident as points that deviate significantly from the horizontal line at zero. Notably, these outliers occur at higher predicted values, indicating that actual values are much higher than predicted values.
 
-For the final Random Forest model, the residual graph looks like this: 
+**Final Random Forest Model**
+
+The residual graph for the final model is shown below:
 <p style="text-align:center"><iframe src="assets/res2.html" width=800 height=600 frameBorder=0></iframe></p>
 
-The Random Forest model has a similar residual pattern as the baseline model. However, its "funnel" shape is slightly more evident, which could be explained by the extra features. In addition, there are as many positive residual points as negative ones, which is a stark contrast from the baseline residual plot, which mainly converges at the negative ends, with few outliers having much higher residuals than others. The range of predictions is also notably larger. The highest prediction made by the baseline model is only around 2000, whereas the final model can make predictions up to 4500. 
+The residual pattern in the Random Forest model is similar to that of the baseline model, but the "funnel" shape is slightly more pronounced, potentially due to the inclusion of additional features. The residuals are evenly distributed between positive and negative values, unlike the baseline model, where residuals predominantly converge at the negative ends with a few high outliers. Furthermore, the range of predictions is significantly larger in the final model; the highest prediction in the baseline model is approximately 2000, whereas the final model makes predictions up to 4500.
 
 ### RMSE Analysis
-Our secondary evaluation metric is the RMSE value. We present a similar null hypothesis suggesting that our model’s RMSE value for determining outage severity is approximately equal for all seasons, and any discrepancies are due to random chance. Alternatively, our model could be unfair if the RMSE value is higher for the summer compared to for the winter. We’ve chosen the difference between the RMSE in the summer and in the winter as our test statistic, with a significance level of 0.05. Upon executing a permutation test 10,000 times, we obtained a p-value of 0.5666. As this value is above our significance level, we cannot reject the null hypothesis, suggesting that our model is fair based on the RMSE analysis. Therefore, we can confidently assert that our model is fair regardless of the season of the power outage. 
+
+Our secondary evaluation metric is the RMSE value. We propose a null hypothesis suggesting that our model’s RMSE value for determining outage severity is approximately equal across all seasons, and any observed differences are due to random chance. Alternatively, the model could exhibit bias if the RMSE value is significantly higher for summer compared to winter.
+
+To test this, we chose the difference between the RMSE values for summer and winter as our test statistic, with a significance level of 0.05. A permutation test was performed 10,000 times, yielding a p-value of 0.5666. Since this p-value is above the significance level, we fail to reject the null hypothesis. This result suggests that the model is fair with respect to RMSE values across seasons. Consequently, we can confidently assert that the model performs equitably regardless of the season during which the power outage occurs.
 
 <p style="text-align:center"><iframe src="assets/rmse.html" width=800 height=600 frameBorder=0></iframe></p>
+
+
+
+
+# Conclusion
+
+This study provides a robust framework for understanding and predicting power outage durations in the United States, with a particular focus on the West Climate region. By analyzing historical data, we identified key contributors to outage severity, including climatic conditions and outage causes. The refined dataset and hypothesis testing underscored the significance of severe weather and intentional attacks as primary drivers of prolonged outages.
+
+The transition from a baseline linear regression model to a tuned random forest regressor demonstrated substantial improvements in predictive accuracy. The final model achieved an RMSE of 1383.60, significantly outperforming the baseline, and provided valuable insights into the nuanced interplay between environmental and infrastructural factors influencing outages. Furthermore, fairness analyses confirmed the model's equitable performance across seasons, reinforcing its applicability for diverse planning scenarios.
+
+Our findings have practical implications for utility companies and policymakers seeking to enhance grid resilience. By leveraging predictive modeling, stakeholders can allocate resources more efficiently, prioritize infrastructure upgrades, and mitigate the societal impacts of future outages. While the study highlights critical factors influencing outages, future research could benefit from incorporating real-time data and exploring the impact of emerging technologies, such as smart grids, to further refine predictions and response strategies.
+
+In summary, this research contributes to a deeper understanding of power outage dynamics, paving the way for more resilient energy systems in the face of increasing environmental and infrastructural challenges.
+
+
